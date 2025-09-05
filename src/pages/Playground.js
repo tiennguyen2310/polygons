@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import Grid from '../components/Grid';
 import PolygonInfo from '../components/PolygonInfo';
 
@@ -7,12 +7,11 @@ const Playground = () => {
   const [currentPolygon, setCurrentPolygon] = useState([]);
   const [mode, setMode] = useState('edit'); // 'edit' or 'move'
 
-  // Function to generate a random pastel color with low opacity
   const getRandomColor = () => {
     const r = Math.floor((Math.random() * 127) + 128);
     const g = Math.floor((Math.random() * 127) + 128);
     const b = Math.floor((Math.random() * 127) + 128);
-    return `rgba(${r}, ${g}, ${b}, 0.5)`; // 50% opacity
+    return `rgba(${r}, ${g}, ${b}, 0.5)`;
   };
 
   const addPolygon = () => {
@@ -36,7 +35,6 @@ const Playground = () => {
   };
 
   const handleGridClick = (coords) => {
-    // Only add points if we are in 'edit' mode
     if (mode === 'edit') {
       setCurrentPolygon([...currentPolygon, coords]);
     }
@@ -55,21 +53,33 @@ const Playground = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        {/* Mode Toggles */}
         <div>
           <button onClick={() => setMode('edit')} style={{ background: mode === 'edit' ? '#61dafb' : 'grey' }}>Edit Mode</button>
           <button onClick={() => setMode('move')} style={{ background: mode === 'move' ? '#61dafb' : 'grey' }}>Move Mode</button>
         </div>
 
-        <Grid
-          polygons={polygons}
-          currentPolygon={currentPolygon}
-          onGridClick={handleGridClick}
-          mode={mode} // Pass the current mode to the Grid
-        />
+        {/* === THIS WRAPPER IS THE ONLY CHANGE HERE === */}
+        <div style={{ position: 'relative' }}>
+          <Grid
+            polygons={polygons}
+            currentPolygon={currentPolygon}
+            onGridClick={handleGridClick}
+            mode={mode}
+          />
+        </div>
+
       </div>
-      <div style={{ marginLeft: '20px', flexGrow: 1 }}>
-         <button onClick={addPolygon} disabled={currentPolygon.length < 3}>
+      <div style={{
+          marginLeft: '20px',
+          width: '320px',
+          display: 'flex',
+          flexDirection: 'column'
+      }}>
+        <button
+          onClick={addPolygon}
+          disabled={currentPolygon.length < 3}
+          style={{ padding: '10px', marginBottom: '10px', fontSize: '16px', cursor: 'pointer' }}
+        >
           Finish Drawing Polygon
         </button>
         <PolygonInfo polygons={polygons} onDelete={deletePolygon} />
