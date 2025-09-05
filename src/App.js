@@ -1,27 +1,23 @@
 import React, { useState } from 'react';
 import './App.css';
 import Playground from './pages/Playground';
+import SweepLine from './pages/SweepLine';
+import PolygonTree from './pages/PolygonTree';
+import ConvexHull from './pages/ConvexHull';
 
 function App() {
   const [activeTab, setActiveTab] = useState('playground');
 
-// src/App.js
-
   const renderTab = () => {
     switch (activeTab) {
-      case 'playground':
-        return <Playground />;
-      case 'sweep-line':
-        return <div>This "Sweep Line" feature is under construction.</div>;
-      case 'polygon-tree':
-        return <div>This "Polygon Tree" feature is under construction.</div>;
-      case 'convex-hull':
-        return <div>This "Convex Hull" feature is under construction.</div>;
-      default:
-        return <Playground />;
+      case 'playground': return <Playground />;
+      case 'sweep-line': return <SweepLine />;
+      case 'polygon-tree': return <PolygonTree />;
+      case 'convex-hull': return <ConvexHull />;
+      default: return <Playground />;
     }
   };
-  
+
   return (
     <div className="App">
       <header className="App-header">
